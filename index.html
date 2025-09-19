@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة Memo</title>
+    <link rel="shortcut icon" href="books/mli.png" type="image">
+
+    <style>
+
+    /* ========================= GENERAL SETTINGS ========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #b2dfdb, #e0f2f1);
+    color: #004d40;
+    line-height: 1.6;
+    padding: 0 20px 50px 20px;
+}
+
+/* ========================= LINKS ========================= */
+a {
+    text-decoration: none; /* نون */
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #004d40;
+}
+
+/* ========================= HEADER ========================= */
+.site-header {
+    background: linear-gradient(90deg, #004d40, #00796b);
+    padding: 20px 40px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    margin-bottom: 40px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.site-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.youtube-link {
+    background: linear-gradient(45deg, #FF0000, #FF4D4D, #FF3333, #CC0000);
+    color: #ffffff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.youtube-link:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+
+.youtube-link:hover {
+    background-color: #c50d0d;
+    transform: translateY(-2px);
+}
+
+/* ========================= SEARCH BOX ========================= */
+.search-wrapper,
+.search-box {
+    width: 90%;
+    max-width: 700px;
+    padding: 15px 25px;
+    margin: 30px auto 40px auto;
+    display: block;
+    border-radius: 25px;
+    border: 2px solid #004d40;
+    font-size: 16-18px;
+    outline: none;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.search-box:focus {
+    border-color: #00796b;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.search-box::placeholder {
+    color: #00796b;
+    font-weight: 500;
+}
+
+/* ========================= GRID ========================= */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    width: 95%;
+    margin: 0 auto 50px auto;
+    align-items: stretch;
+}
+
+/* ========================= BOOK CARD ========================= */
+.book-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0fdf4; /* خلفية فاتحة */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    width: 300px;
+    padding: 15px;
+    margin: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 550px; /* حجم البطاقة */
+    position: relative;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+}
+
+/* ========================= BOOK COVER ========================= */
+.book-cover {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.book-card:hover .book-cover {
+    transform: scale(1.05);
+    opacity: 0.95;
+}
+
+/* ========================= BOOK INFO ========================= */
+.book-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* ========================= TITLE & AUTHOR ========================= */
+.book-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00695c;
+    margin: 10px 0 5px 0;
+}
+
+.book-author {
+    font-size: 16px;
+    color: #004d40;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+/* ========================= DESCRIPTION ========================= */
+.book-description {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+    max-height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+/* ========================= DETAILS BUTTON ========================= */
+.book-details {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px 0;
+    width: 80%;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #034e47, #00695c);
+    color: #ffffff;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25), 0 4px 8px rgba(0,0,0,0.15) inset;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.book-details::after {
+    content: '→';
+    margin-left: 8px;
+    transition: margin-left 0.3s ease;
+}
+
+.book-details:hover {
+    background: linear-gradient(135deg, #004d40, #26a69a);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.35), 0 4px 8px rgba(0,0,0,0.15) inset;
+    color: #ffffff;
+}
+
+.book-details:hover::after {
+    margin-left: 12px;
+}
+
+/* ========================= RESPONSIVE ========================= */
+@media screen and (max-width: 1024px) {
+    .grid { gap: 25px; }
+    .book-cover { height: 360px; }
+}
+
+@media screen and (max-width: 768px) {
+    .book-card { height: 500px; }
+    .book-cover { height: 250px; }
+    .book-title { font-size: 20px; }
+    .book-details { font-size: 15px; padding: 12px 0; }
+}
+
+@media screen and (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; }
+    .book-cover { height: 220px; }
+    .book-title { font-size: 18px; }
+    .book-details { font-size: 14px; }
+}
+
+/* ====== MODAL ====== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #00796b; /* لون أخضر هادي */
+}
+
+.modal-content p {
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.modal-content button {
+    background-color: #00796b;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #004d40;
+}
+
+.instagram-link {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: #ffffff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.instagram-link:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+
+.instagram-link:hover {
+    background-color: #b12458; /* لون أغمق عند المرور */
+    transform: translateY(-2px);
+}
+
+    </style>
+</head>
+<body>
+    <!-- ========================= HEADER ========================= -->
+    <header class="site-header">
+    <div class="header-container">
+        <h1 class="site-title">مكتبة Memo</h1>
+        <div class="social-links">
+            <a class="youtube-link" href="https://www.youtube.com/@Memo_devo" target="_blank">
+                قناة صاحب الموقع
+            </a>
+            <a class="instagram-link" href="https://www.instagram.com/memo._.devo/" target="_blank">
+                حساب الإنستغرام
+            </a>
+        </div>
+    </div>
+</header>
+
+
+    <!-- ========================= SEARCH ========================= -->
+    <div class="search-wrapper">
+        <input type="text" class="search-box" placeholder="ابحث عن كتاب أو مؤلف...">
+    </div>
+
+    <!-- ========================= BOOK GRID ========================= -->
+    <div id="books-container" class="grid"></div>
+
+    <!-- ========================= BOOK TEMPLATE ========================= -->
+    <template id="book-template">
+    <div class="book-card">
+        <img class="book-cover" src="" alt="">
+        <div class="book-info">
+            <h3 class="book-title"></h3>
+            <p class="book-author"></p>
+            <p class="book-description"></p>
+            <a class="book-details" href="book.html">تفاصيل</a>
+        </div>
+    </div>
+</template>
+
+<!-- ========================= MODAL ========================= -->
+<div id="welcome-modal" class="modal">
+    <div class="modal-content">
+        <h2>تنبيه</h2>
+        <p>
+            جميع الكتب الموجودة في هذا الموقع مأخوذة من مواقع أخرى.  
+            إذا كان أي كتاب يخصك موجود بدون موافقتك، يرجى التواصل مع صاحب الموقع.
+        </p>
+        <button id="accept-btn">موافق</button>
+    </div>
+</div>
+
+
+    <script>
+
+    const books = [
+  { 
+    id: "alqadimoon", 
+    title: "القادمون", 
+    author: "أحمد خالد مصطفى", 
+    pdf: "books/alqadimoon.pdf", 
+    cover: "books/القادمون-صورة.webp", 
+    description: "رواية شهيرة" 
+  },
+  { 
+    id: "amarita", 
+    title: "أماريتا", 
+    author: "عمرو عبد الحميد", 
+    pdf: "books/amarita.pdf", 
+    cover: "books/اماريتا-صورة.webp", 
+    description: "رواية خيالية" 
+  },
+  { 
+    id: "amwaj-akama", 
+    title: "أمواج أكما", 
+    author: "عمرو عبد الحميد", 
+    pdf: "books/amwaj-akama.pdf", 
+    cover: "books/امواج أكما-صورة.jpg", 
+    description: "رواية خيالية" 
+  },
+  { 
+    id: "arses", 
+    title: "أرسس", 
+    author: "احمد ال حمدان", 
+    pdf: "books/arses.pdf", 
+    cover: "books/ارسس-صورة.jpg", 
+    description: "رواية مشهورة" 
+  },
+  { 
+    id: "bidaya-nihaya", 
+    title: "البداية والنهاية", 
+    author: "ابن كثير", 
+    pdf: "books/bidaya-nihaya.pdf", 
+    cover: "books/البداية و النهاية-صورة.jpg", 
+    description: "كتاب تاريخي ضخم" 
+  },
+  { 
+    id: "daqat-shamo", 
+    title: "دقات الشامو", 
+    author: "عمرو عبد الحميد", 
+    pdf: "books/daqat-shamo.pdf", 
+    cover: "books/دقات الشامو-صورة.jpg", 
+    description: "الجزء الثاني من قواعد جارتين" 
+  },
+  { 
+    id: "earth-zykola", 
+    title: "أرض زيكولا", 
+    author: "عمرو عبد الحميد", 
+    pdf: "books/earth-zykola.pdf", 
+    cover: "books/ارض زيكولا-صورة.jpg", 
+    description: "رواية عربية مشهورة" 
+  },
+  { 
+    id: "futuh-sham", 
+    title: "فتوح الشام", 
+    author: "الواقدي", 
+    pdf: "books/futuh-sham.pdf", 
+    cover: "books/فتوح الشام-صورة.webp", 
+    description: "كتاب تاريخي" 
+  },
+  { 
+    id: "muqadima-ibn-khaldun", 
+    title: "مقدمة ابن خلدون", 
+    author: "ابن خلدون", 
+    pdf: "books/muqadima-ibn-khaldun.pdf", 
+    cover: "books/مقدمة ابن خلدون-صورة.jpg", 
+    description: "أشهر كتاب في علم الاجتماع" 
+  },
+  { 
+    id: "ottoman", 
+    title: "تاريخ الدولة العلية العثمانية", 
+    author: "محمد فريد بك", 
+    pdf: "books/ottoman.pdf", 
+    cover: "books/تاريخ الدولة العلية العثمانية-صورة.webp", 
+    description: "مرجع تاريخي" 
+  },
+  { 
+    id: "qawaed-jareteen", 
+    title: "قواعد جارتين", 
+    author: "عمرو عبد الحميد", 
+    pdf: "books/qawaed-jareteen.pdf", 
+    cover: "books/قواعد جارتين-صورة.jpg", 
+    description: "رواية خيالية" 
+  },
+  { 
+    id: "sahih-bukhari", 
+    title: "صحيح البخاري", 
+    author: "الإمام البخاري", 
+    pdf: "books/sahih-bukhari.pdf", 
+    cover: "books/صحيح البخاري-صورة.jpeg", 
+    description: "أشهر كتب الحديث" 
+  },
+  { 
+    id: "sahih-muslim", 
+    title: "صحيح مسلم", 
+    author: "الإمام مسلم", 
+    pdf: "books/sahih-muslim.pdf", 
+    cover: "books/صحيح مسلم-صورة.webp", 
+    description: "أحد أهم كتب الحديث الشريف" 
+  },
+  { 
+    id: "almoqtabs", 
+    title: "المقتبس في أخبار بلد الأندلس", 
+    author: "ابن حيان", 
+    pdf: "books/almoqtabs.pdf", 
+    cover: "books/المقتبس في أخبار بلد الأندلس-صورة.webp", 
+    description: "كتاب تاريخي عن الأندلس" 
+  },
+  { 
+    id: "tirmidhi-1", 
+    title: "سنن الترمذي 1", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-1.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-2", 
+    title: "سنن الترمذي 2", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-2.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-3", 
+    title: "سنن الترمذي 3", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-3.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-4", 
+    title: "سنن الترمذي 4", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-4.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-5", 
+    title: "سنن الترمذي 5", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-5.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-7", 
+    title: "سنن الترمذي 7", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-7.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-9", 
+    title: "سنن الترمذي 9", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-9.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+  { 
+    id: "tirmidhi-11", 
+    title: "سنن الترمذي 11", 
+    author: "الإمام الترمذي", 
+    pdf: "books/tirmidhi-11.pdf", 
+    cover: "books/سنن الترمذي-صورة.webp", 
+    description: "كتاب حديث" 
+  },
+
+  {
+    id: "daa",
+    title: "الداء والدواء",
+    author: "ابن القيم",
+    pdf: "books/الداء والدواء.pdf",
+    cover: "books/الداء و الدواء.webp",
+    description: "كتاب يتناول فيه ابن القيم الجوانب النفسية والروحية للداء والدواء، ويقدم نصائح قيمة للشفاء والعلاج."
+  },
+
+  {
+    id: "halacot",
+    title: "الهلكوت",
+    author: "أحمد خالد مصطفى",
+    pdf: "books/الهلكوت.pdf",
+    cover: "books/الهلكوت-صورة.jpg",
+    description: "رواية خيالية تأخذ القارئ في رحلة عبر عوالم مدهشة، حيث تتداخل الأحداث والشخصيات في إطار من الغموض والتشويق."
+  },
+
+  {
+    id: "basera",
+    title: "بصيرا",
+    author: "أحمد بن ماجد",
+    pdf: "books/بصيرا.pdf",
+    cover: "books/بصيرا-صورة.jpg",
+    description: "رواية تاريخية تسرد قصة ملهمة عن الشجاعة والإيمان، مستوحاة من حياة البحار العربي أحمد بن ماجد."
+  },
+
+  {
+    id: "bet-khalti",
+    title: "بيت خالتي",
+    author: "أحمد خيري العمري",
+    pdf: "books/بيت خالتي.pdf",
+    cover: "books/بيت خالتي-صورة.jpg",
+    description: "رواية تجمع بين الحكايات العائلية والتاريخية، حيث تستعرض حياة فتاة تعيش مع خالتها في بيت مليء بالأسرار والتحديات."
+  },
+
+  {
+    id: "bithanos",
+    title: "بيثانوس",
+    author: "محمد سيد",
+    pdf: "books/بيثانوس.pdf",
+    cover: "books/بيثانوس-صورة.webp",
+    description: "رواية خيالية تأخذ القارئ في مغامرة مثيرة عبر عوالم غامضة، حيث يكتشف البطل أسرارًا قد تغير مجرى حياته."
+  },
+
+  {
+    id: "khawf",
+    title: "خوف",
+    author: "أسامة مسلم",
+    pdf: "books/خوف.pdf",
+    cover: "books/خوف-صورة.webp",
+    description: "رواية نفسية تستكشف مشاعر الخوف والقلق، وتقدم رؤية عميقة حول كيفية التعامل مع هذه المشاعر في الحياة اليومية."
+  },
+
+  {
+    id: "khawf2",
+    title: "خوف 2",
+    author: "أسامة مسلم",
+    pdf: "books/خوف 2.pdf",
+    cover: "books/خوف 2-صورة.png",
+    description: "رواية نفسية تستكشف مشاعر الخوف والقلق، وتقدم رؤية عميقة حول كيفية التعامل مع هذه المشاعر في الحياة اليومية."
+  },
+
+  {
+    id: "khawf3",
+    title: "خوف 3",
+    author: "أسامة مسلم",
+    pdf: "books/خوف 3.pdf",
+    cover: "books/خوف 3-صورة.png",
+    description: "رواية نفسية تستكشف مشاعر الخوف والقلق، وتقدم رؤية عميقة حول كيفية التعامل مع هذه المشاعر في الحياة اليومية."
+  },
+
+  {
+    id: "dar-emian",
+    title: "دار العميان",
+    author: "محمد الليثي",
+    pdf: "books/دار العميان.pdf",
+    cover: "books/دار العميان-صورة.webp",
+    description: "رواية مشوقة تدور أحداثها في دار للأيتام، حيث يواجه الأطفال تحديات الحياة ويكتشفون معاني الصداقة والأمل."
+  },
+
+  {
+    id: "rabeea-andalos",
+    title: "ربيع الأندلس",
+    author: "محمود ماهر",
+    pdf: "books/ربيع الأندلس.pdf",
+    cover: "books/ربيع الأندلس.jpg",
+    description: "رواية تاريخية تأخذنا في رحلة عبر الأندلس، حيث تتشابك الأحداث والشخصيات في إطار من الإثارة والتشويق."
+  },
+
+  {
+    id: "mashooq",
+    title: "المعشوق",
+    author: "أحمد  بيست",
+    pdf: "books/المعشوق.pdf",
+    cover: "books/المعشوق-صورة.webp",
+    description: "رواية رومانسية تأخذنا في رحلة عبر مشاعر الحب والفقد، حيث يواجه البطل تحديات كبيرة في سبيل تحقيق سعادته."
+  },
+
+  {
+    id: "oma-dobamin",
+    title: "أمة الدوبامين",
+    author: "انا ليمبيكس",  
+    pdf: "books/أمة الدوبامين.pdf",
+    cover: "books/أمة الدوبامين-صورة.jpg",
+    description: "كتاب يتناول تأثير التكنولوجيا ووسائل التواصل الاجتماعي على حياتنا اليومية، وكيف أصبحت مصدرًا رئيسيًا للسعادة والإدمان في العصر الحديث."
+  },
+
+  {
+    id: "serah-bin-tiameia",
+    title: "سيرة ابن تيمية",
+    author: "صائب عبدالحميد",
+    pdf: "books/سيرة ابن تيمية.pdf",
+    cover: "books/سيرة ابن تيمية-صورة.jpg",
+    description: "كتاب يتناول حياة وأفكار العالم الإسلامي ابن تيمية، ويستعرض تأثيره الكبير على الفكر الإسلامي عبر العصور."
+  },
+
+  {
+    id: "saheb-aldel-altaweel",
+    title: "صاحب الظل الطويل",
+    author: "جيني ويبستر",
+    pdf: "books/صاحب الظل الطويل.pdf",
+    cover: "books/صاحب الظل الطويل-صورة.webp",
+    description: "رواية تاريخية تأخذنا في رحلة عبر الزمن، حيث تتشابك الأحداث والشخصيات في إطار من الإثارة والتشويق."
+  },
+
+  {
+    id: "fan-reqat-aloqol",
+    title: "فن قراءة العقول",
+    author: "هينريك فيكسيوس",
+    pdf: "books/فن قراءة العقول.pdf",
+    cover: "books/فن القراءة العقول-صورة.jpg",
+    description: "كتاب يقدم تقنيات وأساليب لفهم وتحليل سلوك الآخرين، وكيفية استخدام هذه المهارات في الحياة اليومية والمهنية."
+  },
+
+  {
+    id: "fan-la-mobala",
+    title: "فن اللامبالاة",
+    author: "مارك مانسون",
+    pdf: "books/فن اللامبالاة.pdf",
+    cover: "books/فن اللامبالاة-صورة.png",
+    description: "كتاب يتناول مفهوم اللامبالاة وكيفية تطبيقه في الحياة اليومية لتحقيق السعادة والنجاح."
+  },
+
+  {
+    id: "ketab-alelm",
+    title: "كتاب العلم",
+    author: "بن عثيمين",
+    pdf: "books/كتاب العلم.pdf",
+    cover: "books/كتاب العلم-صورة.jpg",
+    description: "كتاب يستعرض أهم المفاهيم العلمية بطريقة مبسطة، ويهدف إلى تعزيز الثقافة العلمية لدى القارئ."
+  },
+
+  {
+    id: "mohat-belmarda",
+    title: "محاط بالمرضى النفسيين",
+    author: "توماس إريكسون",
+    pdf: "books/محاط بالمرضى النفسيين.pdf",
+    cover: "books/محاط بالمرضى النفسيين-صورة.jpg",
+    description: "كتاب يتناول كيفية التعامل مع المرضى النفسيين وفهم احتياجاتهم، ويقدم نصائح عملية للمساعدة والدعم."
+  }
+];
+
+function displayBooks(books) {
+  const container = document.getElementById('books-container');
+  container.innerHTML = '';
+  books.forEach(book => {
+      const card = document.createElement('div');
+      card.classList.add('book-card');
+      card.innerHTML = `
+          <img src="${book.cover}" alt="${book.title}">
+          <h3>${book.title}</h3>
+          <p>${book.author}</p>
+          <a href="book.html?id=${book.id}" class="details-btn">تفاصيل</a>
+      `;
+      container.appendChild(card);
+  });
+}
+
+// البحث
+document.querySelector('.search-box').addEventListener('input', e => {
+    const term = e.target.value.toLowerCase();
+    const filtered = books.filter(book => 
+        book.title.toLowerCase().includes(term) ||
+        book.author.toLowerCase().includes(term)
+    );
+    displayBooks(filtered);
+});
+
+// عرض الكتب عند البداية
+displayBooks(books);
+
+// MODAL
+const modal = document.getElementById('welcome-modal');
+const acceptBtn = document.getElementById('accept-btn');
+
+acceptBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+
+    </script>
+</body>
+</html>
